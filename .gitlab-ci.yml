@@ -10,9 +10,6 @@ secret-detection:
   artifacts:
     reports:
       secret_detection: gl-secret-detection-report.json
-  except:
-    refs:
-      - main
   before_script:
     - ./scripts/secrets-run.sh
   script:
@@ -86,6 +83,9 @@ publish-staging:
     PRIVATE_CODE_REPOSITORY: "private_staging"
   script:
     - ./scripts/publish.sh
+  except:
+    refs:
+      - main
   needs:
     - audit
     - lint
