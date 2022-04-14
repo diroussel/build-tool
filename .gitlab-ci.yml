@@ -1,0 +1,109 @@
+# Pipeline to test and prepare the deployment artifacts
+stages:
+  - test
+  - publish
+
+# Gitleaks secret detection
+secret-detection:
+  stage: test
+  image: "registry.gitlab.com/gitlab-org/security-products/analyzers/secrets:3"
+  artifacts:
+    reports:
+      secret_detection: gl-secret-detection-report.json
+  except:
+    refs:
+      - main
+  before_script:
+    - ./scripts/secrets-run.sh
+  script:
+    - ./scripts/secrets-check.sh
+  tags:
+    - poph-small-dev
+
+# Defaults for all jobs
+.commonbase:
+  image: "228692257010.dkr.ecr.eu-west-2.amazonaws.com/dev-runner-node-14:pophealth"
+  variables:
+    FORCE_COLOR: 1
+    GIT_CLEAN_FLAGS: -ffdx -e node_modules
+    GIT_FETCH_EXTRA_FLAGS: --no-tags
+  before_script:
+    - echo -n "===================================================================="
+    - echo -n "==== Starting ${CI_JOB_NAME} ==== @ " && date
+    - echo -n "===================================================================="
+  after_script:
+    - echo -n "===================================================================="
+    - echo -n "==== Finished ${CI_JOB_NAME} ==== @ " && date
+    - echo -n "===================================================================="
+  tags:
+    - poph-small-dev
+
+# Defaults for javascript jobs
+.yarnbase:
+  extends: .commonbase
+  before_script:
+    - echo -n "===================================================================="
+    - echo -n "==== Starting ${CI_JOB_NAME} ==== @ " && date
+    - echo -n "===================================================================="
+    - time make setup
+    - echo -n "===================================================================="
+    - echo -n "==== Setup done ${CI_JOB_NAME} ==== @ " && date
+    - echo -n "===================================================================="
+
+unit-test:
+  stage: test
+  extends: .yarnbase
+  script:
+    - time make test-unit-coverage
+  artifacts:
+    paths:
+      - reports/build-data/artifact_metadata_fragment_*.json
+    reports:
+      junit: reports/test_reports/*-junit.xml
+
+audit:
+  stage: test
+  extends: .yarnbase
+  allow_failure: true
+  script:
+    - time make audit
+  artifacts:
+    paths:
+      - audit.xml
+      - security-scan.json
+      - reports/build-data/artifact_metadata_fragment_*.json
+
+lint:
+  stage: test
+  extends: .yarnbase
+  script:
+    - time make lint
+
+publish-staging:
+  stage: publish
+  extends: .commonbase
+  variables:
+    PRIVATE_CODE_REPOSITORY: "private_staging"
+  script:
+    - ./scripts/publish.sh
+  needs:
+    - audit
+    - lint
+    - secret-detection
+    - unit-test
+
+publish:
+  stage: publish
+  extends: .commonbase
+  variables:
+    PRIVATE_CODE_REPOSITORY: "private_published"
+  script:
+    - ./scripts/publish.sh
+  only:
+    refs:
+      - main
+  needs:
+    - audit
+    - lint
+    - secret-detection
+    - unit-test

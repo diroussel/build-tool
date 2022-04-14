@@ -1,0 +1,44 @@
+{
+  "lambda_function_group": [
+    {
+      "apifullpath": [
+        "/ras/journey1",
+        "_next/data/test_build_id/ras/journey1.json"
+      ],
+      "handler": "handlers/ras/journey1.render",
+      "name": "ras-journey1"
+    },
+    {
+      "apifullpath": [
+        "/ras/journey1/check-your-answers",
+        "_next/data/test_build_id/ras/journey1/check-your-answers.json"
+      ],
+      "handler": "handlers/ras/journey1/check-your-answers.render",
+      "name": "ras-journey1-check--V88FU"
+    },
+    {
+      "apifullpath": [
+        "/ras/journey1/form-page",
+        "_next/data/test_build_id/ras/journey1/form-page.json"
+      ],
+      "handler": "handlers/ras/journey1/form-page.render",
+      "name": "ras-journey1-form-page"
+    },
+    {
+      "apifullpath": [
+        "/ras/journey1/result",
+        "_next/data/test_build_id/ras/journey1/result.json"
+      ],
+      "handler": "handlers/ras/journey1/result.render",
+      "name": "ras-journey1-result"
+    },
+    {
+      "apifullpath": [
+        "/ras/journey2/{pageId}",
+        "_next/data/test_build_id/ras/journey2/{pageId}"
+      ],
+      "handler": "handlers/ras/journey2/[pageId].render",
+      "name": "ras-journey2-pageId"
+    }
+  ]
+}

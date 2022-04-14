@@ -1,0 +1,73 @@
+{
+  "name": "riskstrat-lambda-package-tool",
+  "version": "1.0.0",
+  "license": "AGPL-3.0",
+  "sideEffects": false,
+  "scripts": {
+    "audit": "auditjs ossi --xml | tee audit.xml",
+    "fmt": "prettier --write .",
+    "git-secrets-setup": "git config --replace-all secrets.providers \"curl https://raw.githubusercontent.com/NHSDigital/software-engineering-quality-framework/master/tools/nhsd-git-secrets/nhsd-rules-linux-mac.txt\"",
+    "lint": "eslint .",
+    "lint:fix": "yarn lint --fix",
+    "prepare": "[ -d .git ] && (husky install; yarn run git-secrets-setup) || true",
+    "security-scan": "yarn run git-secrets --scan",
+    "test": "yarn run typecheck && yarn run test:unit && yarn run lint",
+    "test:unit": "jest -c jest.config.js",
+    "test:unit:coverage": "yarn run test:unit --coverage",
+    "typecheck": "tsc --project ./tsconfig.json --noEmit",
+    "check-version": "scripts/version-check.sh"
+  },
+  "bin": {
+    "lambda-package": "src/package-cli.ts"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.31",
+    "gulp": "^4.0.2",
+    "gulp-debug": "^4.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-size": "^4.0.1",
+    "gulp-zip": "^5.1.0",
+    "micromatch": "^4.0.4",
+    "ts-node": "^10.3.1",
+    "vinyl": "^2.2.1",
+    "vinyl-fs": "^3.0.3",
+    "yargs": "^17.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/gulp": "^4.0.9",
+    "@types/gulp-debug": "^2.0.32",
+    "@types/gulp-rename": "^2.0.1",
+    "@types/jest": "^27.0.2",
+    "@types/micromatch": "^4.0.2",
+    "@types/vinyl": "^2.0.5",
+    "@types/vinyl-fs": "^2.4.12",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "auditjs": "^4.0.35",
+    "babel-jest": "^27.3.1",
+    "eslint": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-sonarjs": "^0.11.0",
+    "eslint-plugin-unicorn": "^40.0.0",
+    "husky": "^5.1.3",
+    "jest": "^27.3.1",
+    "jest-allure": "^0.1.3",
+    "jest-junit": "^13.0.0",
+    "jszip": "^3.7.1",
+    "lint-staged": "^10.5.4",
+    "npm-git-secrets": "^1.0.6",
+    "prettier": "2.2.1",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.4.4"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
+}

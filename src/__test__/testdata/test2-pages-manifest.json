@@ -1,0 +1,11 @@
+{
+  "/": "pages/index.html",
+  "/page/static": "pages/page/static.html",
+  "/page/cookies/page-name": "pages/page/cookies/page-name.html",
+  "/ras/journey1/check-your-answers": "pages/ras/journey1/check-your-answers.js",
+  "/ras/journey1": "pages/ras/journey1.js",
+  "/ras/journey1/form-page": "pages/ras/journey1/form-page.js",
+  "/ras/journey1/result": "pages/ras/journey1/result.js",
+  "/ras/journey2/[pageId]": "pages/ras/journey2/[pageId].js",
+  "/_error": "pages/_error.js"
+}
