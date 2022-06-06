@@ -1,6 +1,6 @@
 {
   "name": "@riskstrat/lambda-package-tool",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "AGPL-3.0",
   "sideEffects": false,
   "scripts": {
@@ -9,7 +9,9 @@
     "git-secrets-setup": "git config --replace-all secrets.providers \"curl https://raw.githubusercontent.com/NHSDigital/software-engineering-quality-framework/master/tools/nhsd-git-secrets/nhsd-rules-linux-mac.txt\"",
     "lint": "eslint .",
     "lint:fix": "yarn lint --fix",
-    "prepare": "[ -d .git ] && (husky install; yarn run git-secrets-setup) || true",
+    "build": "tsc",
+    "prepare": "yarn run build && yarn run setup:hooks",
+    "setup:hooks": "[ -d .git ] && (husky install; yarn run git-secrets-setup) || true",
     "security-scan": "yarn run git-secrets --scan",
     "test": "yarn run typecheck && yarn run test:unit && yarn run lint",
     "test:unit": "jest -c jest.config.js",
@@ -18,8 +20,13 @@
     "check-version": "scripts/version-check.sh"
   },
   "bin": {
-    "lambda-package": "src/package-cli.ts"
+    "lambda-package": "dist/src/package-cli.js"
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "dependencies": {
     "@types/node": "^14.14.31",
     "gulp": "^4.0.2",

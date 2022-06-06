@@ -53,8 +53,8 @@ export async function stream2buffer(stream: Readable): Promise<Buffer> {
   });
 }
 
-export async function objectStreamToArray(stream: Readable): Promise<string[]> {
-  return new Promise<string[]>((resolve, reject) => {
+export async function objectStreamToArray(stream: Readable): Promise<File[]> {
+  return new Promise<File[]>((resolve, reject) => {
     const files = [];
     stream.on('data', (file) => files.push(file));
     stream.on('end', () => resolve(files));

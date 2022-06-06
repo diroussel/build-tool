@@ -78,7 +78,7 @@ lint:
 
 publish-staging:
   stage: publish
-  extends: .commonbase
+  extends: .yarnbase
   variables:
     PRIVATE_CODE_REPOSITORY: "private_staging"
   script:
@@ -94,7 +94,7 @@ publish-staging:
 
 publish:
   stage: publish
-  extends: .commonbase
+  extends: .yarnbase
   variables:
     PRIVATE_CODE_REPOSITORY: "private_published"
   script:

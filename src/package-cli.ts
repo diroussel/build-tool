@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node-transpile-only
+#!/usr/bin/env node
 import yargs from 'yargs';
 
 import { genMappingsModule } from './mappings/generate-lambda-mappings-cli-module';

@@ -2,9 +2,8 @@
   "compilerOptions": {
     "declaration": true,
     "composite": true,
-    "baseUrl": "./",
     "outDir": "dist",
-    "target": "es2017", // Need to target es2017 otherwise the allure-report-proxy doesn't work with async
+    "target": "es2020",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -15,9 +14,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "lib": ["es2019", "dom", "es6", "dom.iterable"],
+    "lib": ["es2020"],
     "sourceMap": true,
     "types": ["node", "@types/jest"]
   },
-  "include": ["src/**/*.ts", "src/**/*.json", "jest.config.js"]
+  "include": ["src/**/*.ts", "src/**/*.json"],
+  "exclude": ["src/__test__/**"]
 }
