@@ -1,4 +1,5 @@
 {
+  "/api/.well-known/openid-configuration": "pages/api/.well-known/openid-configuration.js",
   "/": "pages/index.html",
   "/page/static": "pages/page/static.html",
   "/page/cookies/page-name": "pages/page/cookies/page-name.html",

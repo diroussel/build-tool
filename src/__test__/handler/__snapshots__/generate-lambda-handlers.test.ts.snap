@@ -3,6 +3,15 @@
 exports[`generateHandlers should match expected output 1`] = `
 Array [
   Object {
+    "content": "const page = require(\\"./../../../pages/api/.well-known/openid-configuration.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/api/.well-known/openid-configuration.js",
+  },
+  Object {
     "content": "const page = require(\\"./../../../pages/ras/journey1/check-your-answers.js\\");
 const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
 const handler = handlerFactory(page);

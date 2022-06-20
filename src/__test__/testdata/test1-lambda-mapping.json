@@ -2,6 +2,14 @@
   "lambda_function_group": [
     {
       "apifullpath": [
+        "/api/.well-known/openid-configuration",
+        "_next/data/test_build_id/api/.well-known/openid-configuration.json"
+      ],
+      "handler": "handlers/api/.well-known/openid-configuration.render",
+      "name": "api-well-known-open-YtIcp"
+    },
+    {
+      "apifullpath": [
         "/ras/journey1",
         "_next/data/test_build_id/ras/journey1.json"
       ],

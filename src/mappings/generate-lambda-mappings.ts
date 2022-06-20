@@ -37,9 +37,8 @@ export function generateMappingsFromManifest(
       .map(([key]) => {
         const name = key
           .replace(/^\//, "")
-          // eslint-disable-next-line unicorn/better-regex
-          .replace(/[[]|[\]]/g, "")
-          .replace(/\//g, "-");
+          .replace(/\//g, "-")
+          .replace(/[^\dA-Za-z-]/g, "");
 
         const apifullpathData = key.replace(/\[([^\]]+)]/g, "{$1}");
         const TEMPLATE_PATH_REGEX = /{[^}]+}$/;
