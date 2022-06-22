@@ -71,6 +71,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
     buffer: false,
     silent: false,
     strict: true,
+    dot: true,
     debug: options.debug,
   };
 
