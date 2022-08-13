@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access */
-import util from "util";
-import stream from "stream";
-import gulp from "gulp";
-import debug from "gulp-debug";
-import rename from "gulp-rename";
-import size from "gulp-size";
-import zip from "gulp-zip";
-import { SrcOptions } from "vinyl-fs";
+import util from 'util';
+import stream from 'stream';
+import gulp from 'gulp';
+import debug from 'gulp-debug';
+import rename from 'gulp-rename';
+import size from 'gulp-size';
+import zip from 'gulp-zip';
+import { SrcOptions } from 'vinyl-fs';
 
-import { Manifest, readManifestSync } from "../next-build/manifest";
-import { addMappingsFile } from "../mappings/generate-lambda-mappings";
-import { generateHandlers } from "../handler/generate-lambda-handler";
+import { Manifest, readManifestSync } from '../next-build/manifest';
+import { addMappingsFile } from '../mappings/generate-lambda-mappings';
+import { generateHandlers } from '../handler/generate-lambda-handler';
 
-import addMetadata from "../util/add-metadata";
-import { exclude, logHash, sortFiles } from "../util/stream-util";
+import addMetadata from '../util/add-metadata';
+import { exclude, logHash, sortFiles } from '../util/stream-util';
 
 const pipeline = util.promisify(stream.pipeline);
 
@@ -35,6 +35,7 @@ export interface ZipArgs {
   manifestPath: string;
   debug: boolean;
   lambdaGroupName: string;
+  buildId: string;
 }
 
 const logProgress = (msg: string) => console.log(`  ... ${msg}`);
@@ -46,10 +47,10 @@ const label = (title: string, options) => ({
 
 function processNextJsStaticFiles() {
   return rename((path) => {
-    if (path.extname === ".html") {
-      path.extname = ""; // eslint-disable-line no-param-reassign
+    if (path.extname === '.html') {
+      path.extname = ''; // eslint-disable-line no-param-reassign
     }
-    if (path.dirname.startsWith("static/")) {
+    if (path.dirname.startsWith('static/')) {
       path.dirname = `_next/${path.dirname}`; // eslint-disable-line no-param-reassign
     }
   });
@@ -60,7 +61,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
   if (!options.outputDir) {
     // apply default outputDir
     if (!options.component) {
-      throw new Error("Either component or outputDir options must be set");
+      throw new Error('Either component or outputDir options must be set');
     }
     outputDir = `dist/${options.component}`;
   } else {
@@ -91,40 +92,40 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
 
   streams.push(
     gulp.src(options.files, opts),
-    debug(label("input files:", options)),
+    debug(label('input files:', options)),
     exclude(options.exclude)
   );
 
   if (options.addDeployScript) {
-    logProgress("Adding deployment script");
+    logProgress('Adding deployment script');
     streams.push(
       gulp.src(`src/deployment/component/${options.component}/deploy.sh`)
     );
   }
   if (options.componentVersion) {
-    logProgress("Adding artifact-metadata.json");
+    logProgress('Adding artifact-metadata.json');
     streams.push(addMetadata(options.componentVersion));
   }
 
   if (options.generateLambdaHandlers) {
-    logProgress("Adding lambda handlers and mappings");
+    logProgress('Adding lambda handlers and mappings');
     const manifest: Manifest = readManifestSync(options.manifestPath);
     streams.push(
-      addMappingsFile(manifest, options.lambdaGroupName),
+      addMappingsFile(manifest, options.lambdaGroupName, options.buildId),
       generateHandlers(manifest, options.debug)
     );
   }
 
   if (options.processNextJsStaticFiles) {
-    logProgress("Adding Nextjs static resources");
+    logProgress('Adding Nextjs static resources');
     streams.push(processNextJsStaticFiles());
   }
 
   if (options.zipFile) {
-    logProgress("Zipping files");
+    logProgress('Zipping files');
     streams.push(
       sortFiles(),
-      debug(label("actual files to add:", options)),
+      debug(label('actual files to add:', options)),
       zip(options.zipFile, { modifiedTime: fixedTime, buffer: false })
     );
   }
@@ -132,7 +133,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
   streams.push(
     gulp.dest(outputDir),
     logHash(logProgress),
-    size(label("zip files created:", options))
+    size(label('zip files created:', options))
   );
 
   return await pipeline(streams);

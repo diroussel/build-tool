@@ -7,6 +7,7 @@ interface GenMappingsArgs extends Arguments {
   manifestPath: string;
   outputPath: string;
   lambdaGroupName: string;
+  buildId: string;
 }
 
 export const genMappingsModule: CommandModule<GenMappingsArgs> = {
@@ -31,6 +32,12 @@ export const genMappingsModule: CommandModule<GenMappingsArgs> = {
           "The path where a json file will be written with ther generated mappings",
         default: "lambda-mappings.json",
       })
+      .option("buildId", {
+        alias: "b",
+        type: "string",
+        description: "The buildId to use for _next/data urls",
+        default: "",
+      })
       .option("lambdaGroupName", {
         alias: "l",
         type: "string",
@@ -44,7 +51,11 @@ export const genMappingsModule: CommandModule<GenMappingsArgs> = {
 
     const lambdaGroup: string = argv.lambdaGroupName;
 
-    const mappings = generateMappingsFromManifest(manifest, lambdaGroup);
+    const mappings = generateMappingsFromManifest(
+      manifest,
+      lambdaGroup,
+      argv.buildId
+    );
 
     fs.writeFileSync(argv.outputPath, JSON.stringify(mappings, null, 2), {
       encoding: "utf8",

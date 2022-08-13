@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import File from "vinyl";
 import { Duplex } from "stream";
+import { readFileSync } from "fs";
 import { Manifest } from "../next-build/manifest";
 import addFiles from "../util/add-file";
 
@@ -27,9 +28,10 @@ interface LambdaDescriptor {
 
 export function generateMappingsFromManifest(
   manifest: Manifest,
-  lambdaGroupName: string
+  lambdaGroupName: string,
+  buildIdArg: string
 ): Record<string, LambdaDescriptor[]> {
-  const buildId = process.env.CI_COMMIT_SHA || "test_build_id";
+  const buildId = buildIdArg || readFileSync(".next/BUILD_ID", "utf8")?.trim();
   return {
     [lambdaGroupName]: Object.entries(manifest)
       .filter(([, value]) => value.endsWith(".js"))
@@ -66,9 +68,14 @@ export function generateMappingsFromManifest(
  */
 export function addMappingsFile(
   manifest: Manifest,
-  lambdaGroupName: string
+  lambdaGroupName: string,
+  buildId = ""
 ): Duplex {
-  const mappings = generateMappingsFromManifest(manifest, lambdaGroupName);
+  const mappings = generateMappingsFromManifest(
+    manifest,
+    lambdaGroupName,
+    buildId
+  );
   return addFiles([
     new File({
       cwd: "/",
