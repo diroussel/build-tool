@@ -68,6 +68,74 @@ module.exports.render = handler;
 ]
 `;
 
+exports[`generateHandlers should match expected output 2 1`] = `
+Array [
+  Object {
+    "content": "const page = require(\\"./../pages/index.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/index.js",
+  },
+  Object {
+    "content": "const page = require(\\"./../../../pages/ras/journey1/check-your-answers.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/ras/journey1/check-your-answers.js",
+  },
+  Object {
+    "content": "const page = require(\\"./../../pages/ras/journey1.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/ras/journey1.js",
+  },
+  Object {
+    "content": "const page = require(\\"./../../../pages/ras/journey1/form-page.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/ras/journey1/form-page.js",
+  },
+  Object {
+    "content": "const page = require(\\"./../../../pages/ras/journey1/result.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/ras/journey1/result.js",
+  },
+  Object {
+    "content": "const page = require(\\"./../../../pages/ras/journey2/[pageId].js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/ras/journey2/[pageId].js",
+  },
+  Object {
+    "content": "const page = require(\\"./../pages/_error.js\\");
+const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");
+const handler = handlerFactory(page);
+
+module.exports.render = handler;
+",
+    "handlerPath": "handlers/_error.js",
+  },
+]
+`;
+
 exports[`generateLambdaHandler should match expected output 1`] = `
 "const page = require(\\"./../pages/_error.js\\");
 const handlerFactory = require(\\"@sls-next/next-aws-lambda\\");

@@ -34,4 +34,24 @@ describe('generateHandlers', () => {
     });
     stream.end();
   });
+
+  it('should match expected output 2', (done) => {
+    const content = [];
+    const manifest = readManifestSync(
+      'src/__test__/testdata/test2-pages-manifest.json'
+    );
+    const stream = generateHandlers(manifest, false);
+    // eslint-disable-next-line sonarjs/no-identical-functions
+    stream.on('data', (file: File) => {
+      content.push({
+        handlerPath: file.relative,
+        content: file.contents.toString(),
+      });
+    });
+    stream.on('end', () => {
+      expect(content).toMatchSnapshot();
+      done();
+    });
+    stream.end();
+  });
 });

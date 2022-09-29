@@ -27,6 +27,7 @@ export function generateHandlers(manifest: Manifest, debug: boolean): Duplex {
 
   Object.entries(manifest)
     .filter(([, pagePath]) => pagePath.endsWith('.js'))
+    .map(([key, pagePath]) => [key.replace(/\/$/, '/index'), pagePath])
     .map(([key, pagePath]) => {
       const handlerPath = `handlers${key}.js`;
       if (debug) {

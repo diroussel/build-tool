@@ -42,25 +42,25 @@ describe('The processor', () => {
       'weblambda_function_group',
       buildId
     );
-    expect(result.weblambda_function_group[0].apifullpath[1]).toMatch(
+    expect(result.weblambda_function_group[1].apifullpath[1]).toMatch(
       `_next/data/${buildId}/ras/journey1.json`
     );
 
     for (let i = 0; i < result.weblambda_function_group.length; i += 1) {
-      expect(
+      expect(result.weblambda_function_group[i].apifullpath[0]).toEqual(
         expectedCustomOutput.weblambda_function_group[i].apifullpath[0]
-      ).toEqual(result.weblambda_function_group[i].apifullpath[0]);
+      );
       expect(
         expectedCustomOutput.weblambda_function_group[i].apifullpath[1]
       ).toMatch(/^_next\/data\//);
-      expect(result.weblambda_function_group[i].apifullpath[1]).toMatch(
-        /^_next\/data\//
+      expect(result.weblambda_function_group[i].apifullpath).toEqual(
+        expectedCustomOutput.weblambda_function_group[i].apifullpath
       );
-      expect(expectedCustomOutput.weblambda_function_group[i].handler).toEqual(
-        result.weblambda_function_group[i].handler
+      expect(result.weblambda_function_group[i].handler).toEqual(
+        expectedCustomOutput.weblambda_function_group[i].handler
       );
-      expect(expectedCustomOutput.weblambda_function_group[i].name).toEqual(
-        result.weblambda_function_group[i].name
+      expect(result.weblambda_function_group[i].name).toEqual(
+        expectedCustomOutput.weblambda_function_group[i].name
       );
     }
   });
