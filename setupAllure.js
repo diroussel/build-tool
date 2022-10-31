@@ -1,1 +1,1 @@
-reporter.allure.setOptions({ targetDir: "./reports/allure-results" }); // eslint-disable-line no-undef
+reporter.allure.setOptions({ targetDir: './reports/allure-results' }); // eslint-disable-line no-undef

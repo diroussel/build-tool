@@ -44,7 +44,7 @@ describe('zip-package', () => {
 
   beforeEach(() => {
     // Coorce the type, as we don't have a published type
-    const exp = (expect as unknown) as {
+    const exp = expect as unknown as {
       getState: () => { currentTestName: string };
     };
 
@@ -144,7 +144,7 @@ describe('zip-package', () => {
     const metadata = await fsPromises.readFile(
       join(outputDir, 'artifact-metadata.json'),
       // eslint-disable-next-line unicorn/prefer-json-parse-buffer
-      'utf-8'
+      'utf8'
     );
     expect(JSON.parse(metadata)).toEqual(expectedMetadata);
   });

@@ -6,7 +6,7 @@ stages:
 # Gitleaks secret detection
 secret-detection:
   stage: test
-  image: "registry.gitlab.com/gitlab-org/security-products/analyzers/secrets:3"
+  image: 'registry.gitlab.com/gitlab-org/security-products/analyzers/secrets:3'
   artifacts:
     reports:
       secret_detection: gl-secret-detection-report.json
@@ -19,7 +19,7 @@ secret-detection:
 
 # Defaults for all jobs
 .commonbase:
-  image: "228692257010.dkr.ecr.eu-west-2.amazonaws.com/dev-runner-node-14:pophealth"
+  image: '228692257010.dkr.ecr.eu-west-2.amazonaws.com/dev-runner-node-14:pophealth'
   variables:
     FORCE_COLOR: 1
     GIT_CLEAN_FLAGS: -ffdx -e node_modules
@@ -80,7 +80,7 @@ publish-staging:
   stage: publish
   extends: .yarnbase
   variables:
-    PRIVATE_CODE_REPOSITORY: "private_staging"
+    PRIVATE_CODE_REPOSITORY: 'private_staging'
   script:
     - ./scripts/publish.sh
   except:
@@ -96,7 +96,7 @@ publish:
   stage: publish
   extends: .yarnbase
   variables:
-    PRIVATE_CODE_REPOSITORY: "private_published"
+    PRIVATE_CODE_REPOSITORY: 'private_published'
   script:
     - ./scripts/publish.sh
   only:
