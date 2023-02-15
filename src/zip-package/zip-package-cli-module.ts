@@ -68,6 +68,12 @@ export const zipPackageModule: CommandModule<ZipArgs> = {
         description:
           'Strip .html extension off filenames, and move static resources into the "_next" folder',
       })
+      .option('stripHtmlExtension', {
+        type: 'boolean',
+        description:
+          'When "processNextJsStaticFiles" is setup, then .html extension is stripped off filenames by default, set this to false to override that behaviour',
+        default: true,
+      })
       .option('lambdaGroupName', {
         alias: 'l',
         type: 'string',

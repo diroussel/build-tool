@@ -32,6 +32,7 @@ export interface ZipArgs {
   addDeployScript: boolean;
   generateLambdaHandlers: boolean;
   processNextJsStaticFiles: boolean;
+  stripHtmlExtension: boolean;
   manifestPath: string;
   debug: boolean;
   lambdaGroupName: string;
@@ -45,9 +46,9 @@ const label = (title: string, options) => ({
   logger: logProgress,
 });
 
-function processNextJsStaticFiles() {
+function processNextJsStaticFiles(stripHtmlExtension: boolean) {
   return rename((path) => {
-    if (path.extname === '.html') {
+    if (stripHtmlExtension && path.extname === '.html') {
       path.extname = ''; // eslint-disable-line no-param-reassign
     }
     if (path.dirname.startsWith('static/')) {
@@ -118,7 +119,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
 
   if (options.processNextJsStaticFiles) {
     logProgress('Adding Nextjs static resources');
-    streams.push(processNextJsStaticFiles());
+    streams.push(processNextJsStaticFiles(options.stripHtmlExtension));
   }
 
   if (options.zipFile) {

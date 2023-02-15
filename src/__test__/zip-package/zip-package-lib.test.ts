@@ -160,6 +160,7 @@ describe('zip-package', () => {
       outputDir,
       zipFile: 'theOutput.zip',
       processNextJsStaticFiles: true,
+      stripHtmlExtension: true,
     };
 
     // When
@@ -171,6 +172,33 @@ describe('zip-package', () => {
       '_next/static/chunks/4139-8ffbec7fbdc1e439a90c.js',
       'page/',
       'page/index',
+      'static/',
+      'static/chunks/',
+    ]);
+  });
+  it('should process nextjs static files without striping .html', async () => {
+    // Given
+    const opts = {
+      ...baseOptions,
+      files: [
+        'src/__test__/zip-package/example-nextjs-build-fixture/.next/serverless/pages/+(page)/**',
+        'src/__test__/zip-package/example-nextjs-build-fixture/.next/+(static)/**',
+      ],
+      outputDir,
+      zipFile: 'theOutput.zip',
+      processNextJsStaticFiles: true,
+      stripHtmlExtension: false,
+    };
+
+    // When
+    await zipFiles(opts);
+
+    // Then
+    expect(fs.readdirSync(outputDir)).toEqual(['theOutput.zip']);
+    expect(await readZipEntries(join(outputDir, 'theOutput.zip'))).toEqual([
+      '_next/static/chunks/4139-8ffbec7fbdc1e439a90c.js',
+      'page/',
+      'page/index.html',
       'static/',
       'static/chunks/',
     ]);
