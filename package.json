@@ -1,6 +1,6 @@
 {
   "name": "@riskstrat/lambda-package-tool",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "license": "AGPL-3.0",
   "sideEffects": false,
   "scripts": {
@@ -20,7 +20,7 @@
     "check-version": "scripts/version-check.sh"
   },
   "bin": {
-    "lambda-package": "dist/src/package-cli.js"
+    "lambda-package": "dist/package-cli.js"
   },
   "files": [
     "dist",
