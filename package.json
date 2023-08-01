@@ -27,16 +27,16 @@
     "README.md"
   ],
   "dependencies": {
-    "@types/node": "^14.14.31",
+    "@types/node": "^16.18.39",
     "gulp": "^4.0.2",
     "gulp-debug": "^4.0.0",
     "gulp-rename": "^2.0.0",
     "gulp-size": "^4.0.1",
     "gulp-zip": "^5.1.0",
     "micromatch": "^4.0.4",
-    "vinyl": "^2.2.1",
-    "vinyl-fs": "^3.0.3",
-    "yargs": "^17.5.1"
+    "vinyl": "^3.0.0",
+    "vinyl-fs": "^4.0.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
