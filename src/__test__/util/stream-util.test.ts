@@ -1,5 +1,5 @@
-import File from 'vinyl';
 import { PassThrough, Readable } from 'stream';
+import File from 'vinyl';
 import { sortFiles, teeStream, logHash } from '../../util/stream-util';
 
 describe('sortFiles', () => {

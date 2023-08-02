@@ -1,5 +1,5 @@
-import { Arguments, CommandModule } from 'yargs';
 import fs from 'fs';
+import { Arguments, CommandModule } from 'yargs';
 import { generateMappingsFromManifest } from './generate-lambda-mappings';
 import { Manifest, readManifestSync } from '../next-build/manifest';
 

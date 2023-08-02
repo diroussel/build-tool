@@ -59,14 +59,14 @@ function processNextJsStaticFiles(stripHtmlExtension: boolean) {
 
 export async function zipFiles(options: ZipArgs): Promise<void> {
   let outputDir: string;
-  if (!options.outputDir) {
+  if (options.outputDir) {
+    outputDir = options.outputDir;
+  } else {
     // apply default outputDir
     if (!options.component) {
       throw new Error('Either component or outputDir options must be set');
     }
     outputDir = `dist/${options.component}`;
-  } else {
-    outputDir = options.outputDir;
   }
 
   const opts: SrcOptions = {

@@ -1,7 +1,7 @@
-import { makeRe } from 'micromatch';
 import crypto from 'crypto';
-import File from 'vinyl';
 import { Duplex, PassThrough, Readable, Transform } from 'stream';
+import { makeRe } from 'micromatch';
+import File from 'vinyl';
 
 /**
  * Drop files from the stream if they match the condition glob
@@ -15,10 +15,10 @@ export function exclude(conditions: Array<string>): NodeJS.ReadWriteStream {
       const filePathMatchFound = regexps.some((regexp) =>
         regexp.test(file.path)
       );
-      if (!filePathMatchFound) {
-        next(null, file);
-      } else {
+      if (filePathMatchFound) {
         next();
+      } else {
+        next(null, file);
       }
     },
   });

@@ -4,8 +4,8 @@
     "composite": true,
     "outDir": "dist",
     "module": "commonjs",
-    "target": "es2020",
-    "lib": ["es2020"],
+    "target": "es2022",
+    "lib": ["es2022"],
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
@@ -17,6 +17,5 @@
     "sourceMap": true,
     "types": ["node", "@types/jest"]
   },
-  "include": ["src/**/*.ts", "src/**/*.json"],
-  "exclude": ["src/__test__/**"]
+  "include": ["src/**/*.ts", "src/**/*.json"]
 }

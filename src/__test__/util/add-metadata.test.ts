@@ -1,5 +1,5 @@
-import File from 'vinyl';
 import { PassThrough } from 'stream';
+import File from 'vinyl';
 import addMetadata from '../../util/add-metadata';
 import { objectStreamToArray } from './stream-util.test';
 
@@ -39,6 +39,7 @@ describe('addMetadata', () => {
 
     const FileToSimple = (file: File) => ({
       name: file.relative,
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       content: file.contents.toString(),
     });
 

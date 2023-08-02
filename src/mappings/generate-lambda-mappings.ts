@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import File from 'vinyl';
 import { Duplex } from 'stream';
 import { readFileSync } from 'fs';
+import File from 'vinyl';
 import { Manifest } from '../next-build/manifest';
 import addFiles from '../util/add-file';
 
@@ -17,7 +17,7 @@ function truncatedName(name: string) {
     .update(name)
     .digest('base64')
     .substr(0, 5)
-    .replace(/[^\dA-Za-z]/g, ''); // Remove non-alphanumeric characters
+    .replaceAll(/[^\dA-Za-z]/g, ''); // Remove non-alphanumeric characters
 
   return `${name.substr(0, 19)}-${hash}`;
 }
@@ -42,12 +42,12 @@ export function generateMappingsFromManifest(
       .map(([key]) => {
         const name = key
           .replace(/^\//, '')
-          .replace(/\//g, '-')
-          .replace(/[^\dA-Za-z-]/g, '');
+          .replaceAll('/', '-')
+          .replaceAll(/[^\dA-Za-z-]/g, '');
 
         // Nextjs uses square brackets for dyanmic routes, but apigateway/openapi3 uses curley brackets
         // so here we convert to curley brances for the urls that we want to map to this lambda
-        const apifullpathData = key.replace(/\[([^\]]+)]/g, '{$1}');
+        const apifullpathData = key.replaceAll(/\[([^\]]+)]/g, '{$1}');
         const ending = HAS_DYNAMIC_ROUTE.test(apifullpathData) ? '' : '.json';
 
         // Map nextjs dynamic route '[param1]' to '{param1}' to match OpenAPI 3 spec for Template Paths

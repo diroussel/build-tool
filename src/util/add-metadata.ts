@@ -1,5 +1,5 @@
-import File from 'vinyl';
 import { Duplex } from 'stream';
+import File from 'vinyl';
 import addFiles from './add-file';
 
 /**

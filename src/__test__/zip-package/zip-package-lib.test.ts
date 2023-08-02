@@ -27,6 +27,7 @@ describe('zip-package', () => {
     addDeployScript: false,
     generateLambdaHandlers: false,
     processNextJsStaticFiles: false,
+    stripHtmlExtension: false,
     manifestPath: '',
     lambdaGroupName: '',
     debug: false,
@@ -49,7 +50,7 @@ describe('zip-package', () => {
     };
 
     // Create temp folder just for this test case, based on the test name
-    const testname = exp.getState().currentTestName.replace(/\s/g, '_');
+    const testname = exp.getState().currentTestName.replaceAll(/\s/g, '_');
     outputDir = join(tmpDir, testname);
     fs.mkdirSync(outputDir);
   });

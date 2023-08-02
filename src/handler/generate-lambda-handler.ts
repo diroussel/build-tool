@@ -1,6 +1,6 @@
 import path from 'path';
-import File from 'vinyl';
 import { Duplex, PassThrough } from 'stream';
+import File from 'vinyl';
 import { Manifest } from '../next-build/manifest';
 
 export function generateLambdaHandler(

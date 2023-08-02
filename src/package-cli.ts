@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable unicorn/prefer-top-level-await */
 import yargs from 'yargs';
 
 import { genMappingsModule } from './mappings/generate-lambda-mappings-cli-module';
