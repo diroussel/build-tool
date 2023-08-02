@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generateHandlers should match expected output 1`] = `
- [
+[
   {
     "content": "const page = require("./../../../pages/api/.well-known/openid-configuration.js");
 const handlerFactory = require("@sls-next/next-aws-lambda");
