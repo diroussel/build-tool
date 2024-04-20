@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-base-to-string */
-import File from 'vinyl';
+import type File from 'vinyl';
 import {
   generateLambdaHandler,
   generateHandlers,
@@ -18,7 +17,7 @@ describe('generateLambdaHandler', () => {
 
 describe('generateHandlers', () => {
   it('should match expected output', (done) => {
-    const content = [];
+    const content: { handlerPath: string; content: string | undefined }[] = [];
     const manifest = readManifestSync(
       'src/__test__/testdata/test1-pages-manifest.json'
     );
@@ -26,7 +25,7 @@ describe('generateHandlers', () => {
     stream.on('data', (file: File) => {
       content.push({
         handlerPath: file.relative,
-        content: file.contents.toString(),
+        content: file.contents?.toString(),
       });
     });
     stream.on('end', () => {
@@ -37,16 +36,15 @@ describe('generateHandlers', () => {
   });
 
   it('should match expected output 2', (done) => {
-    const content = [];
+    const content: { handlerPath: string; content: string | undefined }[] = [];
     const manifest = readManifestSync(
       'src/__test__/testdata/test2-pages-manifest.json'
     );
     const stream = generateHandlers(manifest, false);
-    // eslint-disable-next-line sonarjs/no-identical-functions
     stream.on('data', (file: File) => {
       content.push({
         handlerPath: file.relative,
-        content: file.contents.toString(),
+        content: file.contents?.toString(),
       });
     });
     stream.on('end', () => {

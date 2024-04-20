@@ -1,32 +1,34 @@
-import crypto from 'crypto';
-import { Duplex } from 'stream';
-import { readFileSync } from 'fs';
+import { Buffer } from 'node:buffer';
+import crypto from 'node:crypto';
+import { type Duplex } from 'node:stream';
+import { readFileSync } from 'node:fs';
 import File from 'vinyl';
-import { Manifest } from '../next-build/manifest';
+import { type Manifest } from '../next-build/manifest';
 import addFiles from '../util/add-file';
 
 const HAS_DYNAMIC_ROUTE = /{[^}]+}$/;
 
 function truncatedName(name: string) {
-  // max name of lambdas should be less than 25 chars
+  // Max name of lambdas should be less than 25 chars
   if (name.length < 25) {
     return name;
   }
+
   const hash = crypto
     .createHash('md5')
     .update(name)
     .digest('base64')
-    .substr(0, 5)
+    .slice(0, 5)
     .replaceAll(/[^\dA-Za-z]/g, ''); // Remove non-alphanumeric characters
 
-  return `${name.substr(0, 19)}-${hash}`;
+  return `${name.slice(0, 19)}-${hash}`;
 }
 
-interface LambdaDescriptor {
+type LambdaDescriptor = {
   apifullpath: string[];
   handler: string;
   name: string;
-}
+};
 
 export function generateMappingsFromManifest(
   manifest: Manifest,

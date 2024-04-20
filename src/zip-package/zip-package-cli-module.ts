@@ -1,5 +1,5 @@
-import { Arguments, CommandModule } from 'yargs';
-import { zipFiles, ZipArgs } from './zip-package-lib';
+import { type Arguments, type CommandModule } from 'yargs';
+import { zipFiles, type ZipArgs } from './zip-package-lib';
 
 export const zipPackageModule: CommandModule<ZipArgs> = {
   command: 'zip-package [files..]',
@@ -87,7 +87,6 @@ export const zipPackageModule: CommandModule<ZipArgs> = {
         description: 'Enables debug output',
       }),
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   handler: async function handler(argv: Arguments<ZipArgs>) {
     await zipFiles(argv);
   },

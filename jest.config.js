@@ -6,7 +6,7 @@ module.exports = {
   transform: {
     '^.+\\.(js|ts)$': ['babel-jest'],
   },
-  coverageDirectory: `reports/coverage`,
+  coverageDirectory: 'reports/coverage',
   collectCoverageFrom: [
     'src/**/*.{ts,js}',
     '!src/**/*-cli-module.ts',

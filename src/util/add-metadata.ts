@@ -1,4 +1,6 @@
-import { Duplex } from 'stream';
+import { Buffer } from 'node:buffer';
+import process from 'node:process';
+import { type Duplex } from 'node:stream';
 import File from 'vinyl';
 import addFiles from './add-file';
 

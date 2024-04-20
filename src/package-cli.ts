@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-/* eslint-disable unicorn/prefer-top-level-await */
-import yargs from 'yargs';
 
+import process from 'node:process';
+import yargs from 'yargs';
 import { genMappingsModule } from './mappings/generate-lambda-mappings-cli-module';
 import { genHandlerModule } from './handler/generate-lambda-handler-cli-module';
 import { zipPackageModule } from './zip-package/zip-package-cli-module';

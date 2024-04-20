@@ -1,14 +1,14 @@
-import { Arguments, CommandModule } from 'yargs';
+import { type Arguments, type CommandModule } from 'yargs';
 import gulp from 'gulp';
 import debug from 'gulp-debug';
+import { type Manifest, readManifestSync } from '../next-build/manifest';
 import { generateHandlers } from './generate-lambda-handler';
-import { Manifest, readManifestSync } from '../next-build/manifest';
 
-interface GenHandlerArgs extends Arguments {
+type GenHandlerArgs = {
   manifestPath: string;
   outputPath: string;
   debug: boolean;
-}
+} & Arguments;
 
 export const genHandlerModule: CommandModule<GenHandlerArgs> = {
   command: 'generate-lambda-handlers',

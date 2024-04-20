@@ -1,17 +1,14 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access */
-import util from 'util';
-import stream from 'stream';
+import util from 'node:util';
+import stream from 'node:stream';
 import gulp from 'gulp';
 import debug from 'gulp-debug';
 import rename from 'gulp-rename';
 import size from 'gulp-size';
 import zip from 'gulp-zip';
-import { SrcOptions } from 'vinyl-fs';
-
-import { Manifest, readManifestSync } from '../next-build/manifest';
+import { type SrcOptions } from 'vinyl-fs';
+import { type Manifest, readManifestSync } from '../next-build/manifest';
 import { addMappingsFile } from '../mappings/generate-lambda-mappings';
 import { generateHandlers } from '../handler/generate-lambda-handler';
-
 import addMetadata from '../util/add-metadata';
 import { exclude, logHash, sortFiles } from '../util/stream-util';
 
@@ -20,7 +17,7 @@ const pipeline = util.promisify(stream.pipeline);
 // We add all files with the same timestamp, so we get a consistent SHA1 hash of the output file
 const fixedTime = new Date(Date.UTC(2000, 0, 1, 0, 0, 0));
 
-export interface ZipArgs {
+export type ZipArgs = {
   files: string[];
   baseDir?: string;
   outputDir: string;
@@ -37,9 +34,12 @@ export interface ZipArgs {
   debug: boolean;
   lambdaGroupName: string;
   buildId: string;
-}
+};
 
-const logProgress = (msg: string) => console.log(`  ... ${msg}`);
+const logProgress = (msg: string) => {
+  console.log(`  ... ${msg}`);
+};
+
 const label = (title: string, options) => ({
   title,
   showFiles: options.debug,
@@ -49,10 +49,11 @@ const label = (title: string, options) => ({
 function processNextJsStaticFiles(stripHtmlExtension: boolean) {
   return rename((path) => {
     if (stripHtmlExtension && path.extname === '.html') {
-      path.extname = ''; // eslint-disable-line no-param-reassign
+      path.extname = '';
     }
+
     if (path.dirname.startsWith('static/')) {
-      path.dirname = `_next/${path.dirname}`; // eslint-disable-line no-param-reassign
+      path.dirname = `_next/${path.dirname}`;
     }
   });
 }
@@ -62,10 +63,11 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
   if (options.outputDir) {
     outputDir = options.outputDir;
   } else {
-    // apply default outputDir
+    // Apply default outputDir
     if (!options.component) {
       throw new Error('Either component or outputDir options must be set');
     }
+
     outputDir = `dist/${options.component}`;
   }
 
@@ -80,7 +82,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
   /* eslint-disable sonarjs/no-nested-template-literals */
   console.log(
     `Creating package ${
-      options.component ? `for ${options.component}` : ``
+      options.component ? `for ${options.component}` : ''
     } in ${outputDir}`
   );
   /* eslint-enable sonarjs/no-nested-template-literals */
@@ -103,6 +105,7 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
       gulp.src(`src/deployment/component/${options.component}/deploy.sh`)
     );
   }
+
   if (options.componentVersion) {
     logProgress('Adding artifact-metadata.json');
     streams.push(addMetadata(options.componentVersion));
@@ -137,5 +140,5 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
     size(label('zip files created:', options))
   );
 
-  return await pipeline(streams);
+  await pipeline(streams);
 }

@@ -1,14 +1,14 @@
-import fs from 'fs';
-import { Arguments, CommandModule } from 'yargs';
+import fs from 'node:fs';
+import { type Arguments, type CommandModule } from 'yargs';
+import { type Manifest, readManifestSync } from '../next-build/manifest';
 import { generateMappingsFromManifest } from './generate-lambda-mappings';
-import { Manifest, readManifestSync } from '../next-build/manifest';
 
-interface GenMappingsArgs extends Arguments {
+type GenMappingsArgs = {
   manifestPath: string;
   outputPath: string;
   lambdaGroupName: string;
   buildId: string;
-}
+} & Arguments;
 
 export const genMappingsModule: CommandModule<GenMappingsArgs> = {
   command: 'generate-lambda-mappings',

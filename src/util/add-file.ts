@@ -1,5 +1,5 @@
-import { PassThrough, Duplex } from 'stream';
-import File from 'vinyl';
+import { PassThrough, type Duplex } from 'node:stream';
+import type File from 'vinyl';
 
 /**
  * A stream pass through that adds extra files in

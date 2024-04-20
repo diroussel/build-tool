@@ -1,78 +1,122 @@
 {
-  "name": "@diroussel/build-tool",
-  "version": "1.2.1",
-  "license": "AGPL-3.0",
-  "sideEffects": false,
-  "scripts": {
-    "audit": "auditjs ossi --xml | tee audit.xml",
-    "fmt": "prettier --write .",
-    "git-secrets-setup": "git config --replace-all secrets.providers \"curl https://raw.githubusercontent.com/NHSDigital/software-engineering-quality-framework/master/tools/nhsd-git-secrets/nhsd-rules-linux-mac.txt\"",
-    "lint": "eslint .",
-    "lint:fix": "yarn lint --fix",
-    "build": "tsup --clean src/package-cli.ts",
-    "prepare": "yarn run build && yarn run setup:hooks",
-    "setup:hooks": "[ -d .git ] && (husky install; yarn run git-secrets-setup) || true",
-    "security-scan": "yarn run git-secrets --scan",
-    "test": "yarn run typecheck && yarn run test:unit && yarn run lint",
-    "test:unit": "jest -c jest.config.js",
-    "test:unit:coverage": "yarn run test:unit --coverage",
-    "typecheck": "tsc --project ./tsconfig.json --noEmit"
-  },
-  "bin": {
-    "lambda-package": "dist/package-cli.js"
-  },
-  "files": [
-    "dist",
-    "package.json",
-    "README.md"
-  ],
-  "dependencies": {
-    "@types/node": "^16.18.39",
-    "gulp": "^4.0.2",
-    "gulp-debug": "^4.0.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-size": "^4.0.1",
-    "gulp-zip": "^5.1.0",
-    "micromatch": "^4.0.4",
-    "vinyl": "^3.0.0",
-    "vinyl-fs": "^4.0.0",
-    "yargs": "^17.7.2"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.22.9",
-    "@babel/preset-env": "^7.22.9",
-    "@babel/preset-typescript": "^7.22.5",
-    "@types/gulp": "^4.0.13",
-    "@types/gulp-debug": "^2.0.33",
-    "@types/gulp-rename": "^2.0.2",
-    "@types/jest": "^29.5.3",
-    "@types/micromatch": "^4.0.2",
-    "@types/vinyl": "^2.0.7",
-    "@types/vinyl-fs": "^2.4.12",
-    "@typescript-eslint/eslint-plugin": "^6.2.1",
-    "@typescript-eslint/parser": "^6.2.1",
-    "auditjs": "4.0.41",
-    "babel-jest": "^29.6.2",
-    "eslint": "^8.46.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.9.0",
-    "eslint-import-resolver-typescript": "^3.5.5",
-    "eslint-plugin-import": "^2.28.0",
-    "eslint-plugin-security": "^1.7.1",
-    "eslint-plugin-sonarjs": "^0.19.0",
-    "eslint-plugin-unicorn": "^48.0.1",
-    "husky": "^8.0.3",
-    "jest": "^29.6.2",
-    "jest-junit": "^16.0.0",
-    "jszip": "^3.10.1",
-    "lint-staged": "^13.2.3",
-    "npm-git-secrets": "^1.0.6",
-    "prettier": "3.0.0",
-    "ts-jest": "^29.1.1",
-    "tsup": "7.1.0",
-    "typescript": "^5.1.6"
-  },
-  "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
-  }
+	"name": "@diroussel/build-tool",
+	"version": "1.2.1",
+	"license": "AGPL-3.0",
+	"sideEffects": false,
+	"scripts": {
+		"audit": "auditjs ossi --xml | tee audit.xml",
+		"fmt": "prettier --write .",
+		"git-secrets-setup": "git config --replace-all secrets.providers \"curl https://raw.githubusercontent.com/NHSDigital/software-engineering-quality-framework/master/tools/nhsd-git-secrets/nhsd-rules-linux-mac.txt\"",
+		"lint": "xo",
+		"lint:fix": "xo --fix",
+		"build": "tsup --clean src/package-cli.ts",
+		"prepare": "yarn run build && yarn run setup:hooks",
+		"setup:hooks": "[ -d .git ] && (husky install; yarn run git-secrets-setup) || true",
+		"security-scan": "yarn run git-secrets --scan",
+		"test": "yarn run typecheck && yarn run test:unit && yarn run lint",
+		"test:unit": "jest -c jest.config.js",
+		"test:unit:coverage": "yarn run test:unit --coverage",
+		"typecheck": "tsc --project ./tsconfig.json --noEmit"
+	},
+	"bin": {
+		"lambda-package": "dist/package-cli.js"
+	},
+	"files": [
+		"dist",
+		"package.json",
+		"README.md"
+	],
+	"dependencies": {
+		"@types/node": "^16.18.39",
+		"gulp": "^4.0.2",
+		"gulp-debug": "^4.0.0",
+		"gulp-rename": "^2.0.0",
+		"gulp-size": "^4.0.1",
+		"gulp-zip": "^5.1.0",
+		"micromatch": "^4.0.4",
+		"vinyl": "^3.0.0",
+		"vinyl-fs": "^4.0.0",
+		"yargs": "^17.7.2"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.22.9",
+		"@babel/preset-env": "^7.22.9",
+		"@babel/preset-typescript": "^7.22.5",
+		"@types/gulp": "^4.0.13",
+		"@types/gulp-debug": "^2.0.33",
+		"@types/gulp-rename": "^2.0.2",
+		"@types/jest": "^29.5.3",
+		"@types/micromatch": "^4.0.2",
+		"@types/vinyl": "^2.0.7",
+		"@types/vinyl-fs": "^2.4.12",
+		"@typescript-eslint/eslint-plugin": "^6.2.1",
+		"@typescript-eslint/parser": "^6.2.1",
+		"auditjs": "4.0.41",
+		"babel-jest": "^29.6.2",
+		"eslint": "^8.46.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-prettier": "^8.9.0",
+		"eslint-import-resolver-typescript": "^3.5.5",
+		"eslint-plugin-ava": "^14.0.0",
+		"eslint-plugin-import": "^2.28.0",
+		"eslint-plugin-promise": "^6.1.1",
+		"eslint-plugin-security": "^1.7.1",
+		"eslint-plugin-sonarjs": "^0.25.1",
+		"eslint-plugin-unicorn": "^48.0.1",
+		"eslint-plugin-xo": "^1.0.0",
+		"husky": "^8.0.3",
+		"jest": "^29.6.2",
+		"jest-junit": "^16.0.0",
+		"jszip": "^3.10.1",
+		"lint-staged": "^13.2.3",
+		"np": "^8.0.4",
+		"npm-git-secrets": "^1.0.6",
+		"prettier": "3.0.0",
+		"ts-jest": "^29.1.1",
+		"tsup": "7.1.0",
+		"typescript": "^5.1.6",
+		"xo": "^0.55.0"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
+	},
+	"xo": {
+		"envs": [
+			"node"
+		],
+		"rules": {
+			"@typescript-eslint/ban-ts-comment": "off",
+			"@typescript-eslint/naming-convention": "off",
+			"@typescript-eslint/no-floating-promises": "off",
+			"@typescript-eslint/no-loop-func": "off",
+			"@typescript-eslint/no-non-null-assertion": "off",
+			"@typescript-eslint/no-require-imports": "off",
+			"@typescript-eslint/no-unsafe-assignment": "off",
+			"@typescript-eslint/no-unsafe-call": "off",
+			"@typescript-eslint/no-var-requires": "off",
+			"@typescript-eslint/return-await": [
+				"off",
+				"always"
+			],
+			"import/extensions": "off",
+			"import/no-anonymous-default-export": "off",
+			"import/no-cycle": "off",
+			"no-return-await": "off",
+			"n/file-extension-in-import": "off",
+			"unicorn/prefer-module": "off",
+			"unicorn/prefer-top-level-await": "off",
+			"unicorn/prevent-abbreviations": "off"
+		}
+	},
+	"eslintConfig": {
+		"parser": "babel-eslint",
+		"env": {
+			"node": true,
+			"es6": true
+		},
+		"extends": [
+			"xo",
+			"./node_modules/xo/config/plugins.js"
+		]
+	}
 }

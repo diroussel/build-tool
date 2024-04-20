@@ -1,19 +1,19 @@
-import util from 'util';
-import stream from 'stream';
+import util from 'node:util';
+import stream from 'node:stream';
 import gulp from 'gulp';
 import debug from 'gulp-debug';
-import { SrcOptions } from 'vinyl-fs';
+import { type SrcOptions } from 'vinyl-fs';
 import { exclude } from '../util/stream-util';
 
 const pipeline = util.promisify(stream.pipeline);
 
-export interface CopyFileOptions {
+export type CopyFileOptions = {
   files: string[];
   outputPath: string;
   debug: boolean;
   stripPrefix: boolean;
   exclude: string[];
-}
+};
 
 export async function copyFileWithGulp(
   options: CopyFileOptions

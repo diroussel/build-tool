@@ -1,9 +1,10 @@
-import fs from 'fs';
-import fsPromises from 'fs/promises';
-import { tmpdir } from 'os';
-import { join } from 'path';
+import process from 'node:process';
+import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import jszip from 'jszip';
-import { ZipArgs, zipFiles } from '../../zip-package/zip-package-lib';
+import { type ZipArgs, zipFiles } from '../../zip-package/zip-package-lib';
 
 async function readZipEntries(resultZipFile: string) {
   const zipContents = await fsPromises.readFile(resultZipFile);
@@ -35,7 +36,7 @@ describe('zip-package', () => {
   };
 
   beforeAll(() => {
-    // determine overall temp folder
+    // Determine overall temp folder
     tmpDir = fs.mkdtempSync(join(tmpdir(), 'zip-package-test'));
   });
 
@@ -58,11 +59,11 @@ describe('zip-package', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
-    process.env = { ...OLD_ENV }; // make a copy
+    process.env = { ...OLD_ENV }; // Make a copy
   });
 
   afterAll(() => {
-    process.env = OLD_ENV; // restore old env
+    process.env = OLD_ENV; // Restore old env
   });
 
   it('should copy all files', async () => {
@@ -144,7 +145,7 @@ describe('zip-package', () => {
 
     const metadata = await fsPromises.readFile(
       join(outputDir, 'artifact-metadata.json'),
-      // eslint-disable-next-line unicorn/prefer-json-parse-buffer
+
       'utf8'
     );
     expect(JSON.parse(metadata)).toEqual(expectedMetadata);

@@ -1,5 +1,6 @@
-import yargs, { Arguments } from 'yargs';
-import { copyFileWithGulp, CopyFileOptions } from './copy-files-lib';
+import type yargs from 'yargs';
+import type { Arguments } from 'yargs';
+import { copyFileWithGulp, type CopyFileOptions } from './copy-files-lib';
 
 export const copyFilesModule: yargs.CommandModule<CopyFileOptions> = {
   command: 'copy-files [files..]',
@@ -40,7 +41,6 @@ export const copyFilesModule: yargs.CommandModule<CopyFileOptions> = {
         description: 'Enables debug output',
       }),
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   handler: async function handler(argv: Arguments<CopyFileOptions>) {
     await copyFileWithGulp(argv);
   },

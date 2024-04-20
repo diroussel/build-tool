@@ -1,7 +1,10 @@
-import fs from 'fs';
-import { tmpdir } from 'os';
-import { join } from 'path';
-import { copyFileWithGulp, CopyFileOptions } from '../../copier/copy-files-lib';
+import fs from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import {
+  copyFileWithGulp,
+  type CopyFileOptions,
+} from '../../copier/copy-files-lib';
 
 describe('copier', () => {
   let tmpDir: string;

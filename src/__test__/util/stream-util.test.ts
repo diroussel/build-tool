@@ -1,4 +1,5 @@
-import { PassThrough, Readable } from 'stream';
+import { Buffer } from 'node:buffer';
+import { PassThrough, Readable } from 'node:stream';
 import File from 'vinyl';
 import { sortFiles, teeStream, logHash } from '../../util/stream-util';
 
@@ -46,21 +47,25 @@ export async function stream2buffer(stream: Readable): Promise<Buffer> {
   return new Promise<Buffer>((resolve, reject) => {
     const chunks = new Array<Buffer>();
     stream.on('data', (chunk: Buffer) => chunks.push(chunk));
-    stream.on('end', () => resolve(Buffer.concat(chunks)));
-    stream.on('error', (err) =>
-      reject(new Error(`error converting stream - ${err}`))
-    );
+    stream.on('end', () => {
+      resolve(Buffer.concat(chunks));
+    });
+    stream.on('error', (err) => {
+      reject(new Error(`error converting stream - ${err}`));
+    });
   });
 }
 
 export async function objectStreamToArray(stream: Readable): Promise<File[]> {
   return new Promise<File[]>((resolve, reject) => {
-    const files = [];
+    const files: File[] = [];
     stream.on('data', (file) => files.push(file));
-    stream.on('end', () => resolve(files));
-    stream.on('error', (err) =>
-      reject(new Error(`error converting stream - ${err}`))
-    );
+    stream.on('end', () => {
+      resolve(files);
+    });
+    stream.on('error', (err) => {
+      reject(new Error(`error converting stream - ${err}`));
+    });
   });
 }
 
@@ -81,7 +86,7 @@ describe('logHash', () => {
     const file1 = new File({ path: 'file1', contents: Buffer.from('Hello') });
     const file2 = new File({ path: 'file2', contents: Buffer.from('World') });
 
-    const logLines = [];
+    const logLines: string[] = [];
     const mockLogger = (msg: string) => logLines.push(msg);
 
     const inStream = new PassThrough({ objectMode: true });

@@ -1,4 +1,6 @@
-import { PassThrough } from 'stream';
+import { Buffer } from 'node:buffer';
+import process from 'node:process';
+import { PassThrough } from 'node:stream';
 import File from 'vinyl';
 import addMetadata from '../../util/add-metadata';
 import { objectStreamToArray } from './stream-util.test';
@@ -7,11 +9,11 @@ describe('addMetadata', () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
-    process.env = { ...OLD_ENV }; // make a copy
+    process.env = { ...OLD_ENV }; // Make a copy
   });
 
   afterAll(() => {
-    process.env = OLD_ENV; // restore old env
+    process.env = OLD_ENV; // Restore old env
   });
 
   it('adds metadata file and also passes existing file', async () => {
@@ -39,7 +41,7 @@ describe('addMetadata', () => {
 
     const FileToSimple = (file: File) => ({
       name: file.relative,
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
+
       content: file.contents.toString(),
     });
 

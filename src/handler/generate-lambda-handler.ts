@@ -1,7 +1,7 @@
-import path from 'path';
-import { Duplex, PassThrough } from 'stream';
+import path from 'node:path';
+import { type Duplex, PassThrough } from 'node:stream';
 import File from 'vinyl';
-import { Manifest } from '../next-build/manifest';
+import { type Manifest } from '../next-build/manifest';
 
 export function generateLambdaHandler(
   handlerPath: string,
@@ -25,7 +25,7 @@ export function generateHandlers(manifest: Manifest, debug: boolean): Duplex {
     objectMode: true,
   });
 
-  Object.entries(manifest)
+  for (const { content, handlerPath } of Object.entries(manifest)
     .filter(([, pagePath]) => pagePath.endsWith('.js'))
     .map(([key, pagePath]) => [key.replace(/\/$/, '/index'), pagePath])
     .map(([key, pagePath]) => {
@@ -33,18 +33,18 @@ export function generateHandlers(manifest: Manifest, debug: boolean): Duplex {
       if (debug) {
         console.log(`Generating handler for ${key} to ${handlerPath}`);
       }
+
       const content = generateLambdaHandler(handlerPath, pagePath);
       return { key, content, handlerPath };
-    })
-    .forEach(({ content, handlerPath }) => {
-      const file = new File({
-        cwd: 'generated',
-        base: 'generated',
-        path: `generated/${handlerPath}`,
-        contents: Buffer.from(content),
-      });
-      stream.push(file); // TODO: what if push() returns false?  How do we handle back pressure?
+    })) {
+    const file = new File({
+      cwd: 'generated',
+      base: 'generated',
+      path: `generated/${handlerPath}`,
+      contents: Buffer.from(content),
     });
+    stream.push(file); // TODO: what if push() returns false?  How do we handle back pressure?
+  }
 
   return stream;
 }
