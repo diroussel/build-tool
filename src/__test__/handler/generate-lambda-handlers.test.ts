@@ -17,7 +17,8 @@ describe('generateLambdaHandler', () => {
 
 describe('generateHandlers', () => {
   it('should match expected output', (done) => {
-    const content: { handlerPath: string; content: string | undefined }[] = [];
+    const content: Array<{ handlerPath: string; content: string | undefined }> =
+      [];
     const manifest = readManifestSync(
       'src/__test__/testdata/test1-pages-manifest.json'
     );
@@ -36,7 +37,8 @@ describe('generateHandlers', () => {
   });
 
   it('should match expected output 2', (done) => {
-    const content: { handlerPath: string; content: string | undefined }[] = [];
+    const content: Array<{ handlerPath: string; content: string | undefined }> =
+      [];
     const manifest = readManifestSync(
       'src/__test__/testdata/test2-pages-manifest.json'
     );

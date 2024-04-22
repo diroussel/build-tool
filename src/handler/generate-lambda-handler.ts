@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import path from 'node:path';
 import { type Duplex, PassThrough } from 'node:stream';
 import File from 'vinyl';

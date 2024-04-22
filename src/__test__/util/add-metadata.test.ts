@@ -39,15 +39,15 @@ describe('addMetadata', () => {
     inStream.push(file1);
     inStream.end();
 
-    const FileToSimple = (file: File) => ({
+    const fileToSimple = (file: File) => ({
       name: file.relative,
 
-      content: file.contents.toString(),
+      content: file.contents?.toString(),
     });
 
     const results = await objectStreamToArray(outStream);
-    expect(results.map((element) => FileToSimple(element))).toEqual(
-      [expectedMetadataFile, file1].map((element) => FileToSimple(element))
+    expect(results.map((element) => fileToSimple(element))).toEqual(
+      [expectedMetadataFile, file1].map((element) => fileToSimple(element))
     );
   });
 });

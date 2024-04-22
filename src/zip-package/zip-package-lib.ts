@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../gulp-zip.d.ts" />
 import util from 'node:util';
 import stream from 'node:stream';
 import gulp from 'gulp';
@@ -40,7 +42,7 @@ const logProgress = (msg: string) => {
   console.log(`  ... ${msg}`);
 };
 
-const label = (title: string, options) => ({
+const label = (title: string, options: ZipArgs) => ({
   title,
   showFiles: options.debug,
   logger: logProgress,
@@ -79,13 +81,8 @@ export async function zipFiles(options: ZipArgs): Promise<void> {
     debug: options.debug,
   };
 
-  /* eslint-disable sonarjs/no-nested-template-literals */
-  console.log(
-    `Creating package ${
-      options.component ? `for ${options.component}` : ''
-    } in ${outputDir}`
-  );
-  /* eslint-enable sonarjs/no-nested-template-literals */
+  const compName = options.component ? `for ${options.component}` : '';
+  console.log(`Creating package ${compName} in ${outputDir}`);
 
   if (options.baseDir) {
     opts.base = options.baseDir;

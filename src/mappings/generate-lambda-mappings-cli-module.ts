@@ -1,5 +1,10 @@
 import fs from 'node:fs';
-import { type Arguments, type CommandModule } from 'yargs';
+import {
+  type Arguments,
+  type ArgumentsCamelCase,
+  type Argv,
+  type CommandModule,
+} from 'yargs';
 import { type Manifest, readManifestSync } from '../next-build/manifest';
 import { generateMappingsFromManifest } from './generate-lambda-mappings';
 
@@ -8,15 +13,18 @@ type GenMappingsArgs = {
   outputPath: string;
   lambdaGroupName: string;
   buildId: string;
-} & Arguments;
+};
 
-export const genMappingsModule: CommandModule<GenMappingsArgs> = {
+export const genMappingsModule: CommandModule<
+  GenMappingsArgs,
+  GenMappingsArgs
+> = {
   command: 'generate-lambda-mappings',
 
   describe:
     'Generate json mapping file that is passed to terraform deployment code',
 
-  builder: (argv) =>
+  builder: (argv: Argv<GenMappingsArgs>) =>
     argv
       .option('manifestPath', {
         alias: 'm',
@@ -44,9 +52,9 @@ export const genMappingsModule: CommandModule<GenMappingsArgs> = {
         description:
           'The name of the lambda group to be mapped to in terraform',
         default: 'lambda_function_group',
-      }),
+      }) as Argv<GenMappingsArgs>,
 
-  handler: function handler(argv: GenMappingsArgs) {
+  handler(argv: ArgumentsCamelCase<GenMappingsArgs>) {
     const manifest: Manifest = readManifestSync(argv.manifestPath);
 
     const lambdaGroup: string = argv.lambdaGroupName;

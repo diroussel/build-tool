@@ -16,7 +16,7 @@ export function exclude(conditions: string[]): NodeJS.ReadWriteStream {
   const regexps = conditions.map((condition) => makeRe(condition));
   return new Transform({
     objectMode: true,
-    transform(file: File, enc, next) {
+    transform(file: File, _enc, next) {
       const filePathMatchFound = regexps.some((regexp) =>
         regexp.test(file.path)
       );
@@ -58,10 +58,10 @@ export function teeStream(
 /**
  * Log the sha1 hash of the files in the stream
  */
-export function logHash(logger: (string) => void): Duplex {
+export function logHash(logger: (msg: string) => void): Duplex {
   return new Transform({
     objectMode: true,
-    transform(file: File, enc, next) {
+    transform(file: File, _enc, next) {
       if (file.isDirectory()) {
         next(null, file);
         return;
@@ -94,7 +94,7 @@ export function sortFiles(): Duplex {
   const files: File[] = [];
   return new Transform({
     objectMode: true,
-    transform(file: File, enc, next) {
+    transform(file: File, _enc, next) {
       files.push(file);
       next();
     },

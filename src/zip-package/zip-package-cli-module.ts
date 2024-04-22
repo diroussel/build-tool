@@ -1,11 +1,11 @@
-import { type Arguments, type CommandModule } from 'yargs';
+import { type Arguments, type Argv, type CommandModule } from 'yargs';
 import { zipFiles, type ZipArgs } from './zip-package-lib';
 
-export const zipPackageModule: CommandModule<ZipArgs> = {
+export const zipPackageModule: CommandModule<ZipArgs, ZipArgs> = {
   command: 'zip-package [files..]',
 
   describe:
-    'Add all files and folders listed in [files..] to the <output> zip, with optional include and exclude regular expressions.',
+    'Add all files and folders listed in [files...] to the <output> zip, with optional include and exclude regular expressions.',
 
   builder: (argv) =>
     argv
@@ -85,9 +85,9 @@ export const zipPackageModule: CommandModule<ZipArgs> = {
         alias: 'd',
         type: 'boolean',
         description: 'Enables debug output',
-      }),
+      }) as Argv<ZipArgs>,
 
-  handler: async function handler(argv: Arguments<ZipArgs>) {
+  async handler(argv: Arguments<ZipArgs>) {
     await zipFiles(argv);
   },
 };

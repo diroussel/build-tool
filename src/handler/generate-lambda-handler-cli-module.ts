@@ -1,23 +1,23 @@
-import { type Arguments, type CommandModule } from 'yargs';
+import { type Arguments, type Argv, type CommandModule } from 'yargs';
 import gulp from 'gulp';
 import debug from 'gulp-debug';
 import { type Manifest, readManifestSync } from '../next-build/manifest';
 import { generateHandlers } from './generate-lambda-handler';
 
-type GenHandlerArgs = {
+export type GenHandlerArgs = {
   manifestPath: string;
   outputPath: string;
   debug: boolean;
-} & Arguments;
+};
 
-export const genHandlerModule: CommandModule<GenHandlerArgs> = {
+export const genHandlerModule: CommandModule<GenHandlerArgs, GenHandlerArgs> = {
   command: 'generate-lambda-handlers',
 
   describe:
     'Generate wrapper handler function that uses a handler adaptor to be able to ' +
     'pass AWS lambda events to nextjs serverless handler functions',
 
-  builder: (argv) =>
+  builder: (argv: Argv<GenHandlerArgs>) =>
     argv
       .option('manifestPath', {
         alias: 'm',
@@ -36,9 +36,9 @@ export const genHandlerModule: CommandModule<GenHandlerArgs> = {
         alias: 'd',
         type: 'boolean',
         description: 'Enables debug output',
-      }),
+      }) as Argv<GenHandlerArgs>,
 
-  handler: function handler(options: Arguments<GenHandlerArgs>) {
+  handler(options: Arguments<GenHandlerArgs>) {
     const outdir = options.outputPath;
     console.log(`Generating handlers into ${outdir}`);
     const label = (title: string) => ({ title, showFiles: options.debug });

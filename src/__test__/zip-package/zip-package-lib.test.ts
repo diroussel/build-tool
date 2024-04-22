@@ -18,7 +18,8 @@ describe('zip-package', () => {
 
   const baseOptions: ZipArgs = {
     files: ['src/__test__/zip-package/zip-test-fixture/**'],
-    baseDir: null,
+    baseDir: undefined,
+    // @ts-expect-error
     outputDir,
     zipFile: '',
     component: undefined,

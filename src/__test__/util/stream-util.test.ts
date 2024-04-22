@@ -51,7 +51,9 @@ export async function stream2buffer(stream: Readable): Promise<Buffer> {
       resolve(Buffer.concat(chunks));
     });
     stream.on('error', (err) => {
-      reject(new Error(`error converting stream - ${err}`));
+      reject(
+        new Error(`error converting stream - ${err.message}`, { cause: err })
+      );
     });
   });
 }
@@ -59,12 +61,14 @@ export async function stream2buffer(stream: Readable): Promise<Buffer> {
 export async function objectStreamToArray(stream: Readable): Promise<File[]> {
   return new Promise<File[]>((resolve, reject) => {
     const files: File[] = [];
-    stream.on('data', (file) => files.push(file));
+    stream.on('data', (file) => files.push(file as File));
     stream.on('end', () => {
       resolve(files);
     });
     stream.on('error', (err) => {
-      reject(new Error(`error converting stream - ${err}`));
+      reject(
+        new Error(`error converting stream - ${err.message}`, { cause: err })
+      );
     });
   });
 }
@@ -76,8 +80,12 @@ describe('teeStream', () => {
 
     const out2 = teeStream(inStream, out1);
 
-    expect((await stream2buffer(out1)).toString()).toEqual('Hello World');
-    expect((await stream2buffer(out2)).toString()).toEqual('Hello World');
+    await expect(stream2buffer(out1)).resolves.toEqual(
+      Buffer.from('Hello World')
+    );
+    await expect(stream2buffer(out2)).resolves.toEqual(
+      Buffer.from('Hello World')
+    );
   });
 });
 
